@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "howler": "^2.2.3",
     "react": "^18.2.0",
+    "react-confetti": "^6.1.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^5.5.0",
     "react-router-dom": "^6.14.0",
     "react-scripts": "5.0.1",
-    "howler": "^2.2.3",
-    "react-confetti": "^6.1.0",
     "react-spring": "^9.7.1",
     "styled-components": "^5.3.11"
   },
@@ -36,4 +37,4 @@
       "last 1 safari version"
     ]
   }
-} 
+}

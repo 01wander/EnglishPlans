@@ -14,17 +14,18 @@ const Nav = styled.nav`
   align-items: center;
 `;
 
-const Logo = styled.div`
-  font-size: 28px;
-  font-weight: bold;
-  color: #ff6347;
+const Logo = styled(Link)`
   display: flex;
   align-items: center;
+  text-decoration: none;
+  color: #ff6347;
+  font-size: 1.8rem;
+  font-weight: bold;
+`;
 
-  img {
-    height: 50px;
-    margin-right: 10px;
-  }
+const LogoEmoji = styled.span`
+  font-size: 2.5rem;
+  margin-right: 10px;
 `;
 
 const MenuItems = styled.ul`
@@ -108,9 +109,9 @@ const Header = () => {
     <HeaderContainer>
       <div className="container">
         <Nav>
-          <Logo>
-            <img src="/logo.png" alt="趣味英语" />
-            <span>趣味英语乐园</span>
+          <Logo to="/">
+            <LogoEmoji>📚</LogoEmoji>
+            趣味英语乐园
           </Logo>
 
           <MenuButton onClick={toggleMenu}>
@@ -141,6 +142,26 @@ const Header = () => {
             <MenuItem>
               <MenuLink to="/animals" className={isActive('/animals')}>
                 动物
+              </MenuLink>
+            </MenuItem>
+            <MenuItem>
+              <MenuLink to="/greetings" className={isActive('/greetings')}>
+                日常用语
+              </MenuLink>
+            </MenuItem>
+            <MenuItem>
+              <MenuLink to="/songs" className={isActive('/songs')}>
+                儿歌童谣
+              </MenuLink>
+            </MenuItem>
+            <MenuItem>
+              <MenuLink to="/food" className={isActive('/food')}>
+                食物
+              </MenuLink>
+            </MenuItem>
+            <MenuItem>
+              <MenuLink to="/body" className={isActive('/body')}>
+                身体部位
               </MenuLink>
             </MenuItem>
             <MenuItem>

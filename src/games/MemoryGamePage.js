@@ -293,6 +293,14 @@ const MemoryGamePage = () => {
       return;
     }
     
+    // 播放单词发音
+    const card = cards.find(card => card.id === id);
+    const utterance = new SpeechSynthesisUtterance(card.value);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.8;
+    utterance.pitch = 1.0;
+    window.speechSynthesis.speak(utterance);
+    
     // 翻转卡片
     const newCards = cards.map(card => 
       card.id === id ? { ...card, isFlipped: true } : card
@@ -314,11 +322,11 @@ const MemoryGamePage = () => {
       // 检查是否匹配
       if (firstCard.value === secondCard.value) {
         // 匹配成功的音效
-        const successSound = new Howl({
-          src: ['/sounds/match.mp3'],
-          volume: 0.7
-        });
-        successSound.play();
+        const successSound = new SpeechSynthesisUtterance('Correct!');
+        successSound.lang = 'en-US';
+        successSound.pitch = 1.5;
+        successSound.rate = 1.0;
+        window.speechSynthesis.speak(successSound);
         
         // 更新卡片状态
         setTimeout(() => {
@@ -338,11 +346,11 @@ const MemoryGamePage = () => {
             setShowConfetti(true);
             
             // 胜利音效
-            const winSound = new Howl({
-              src: ['/sounds/win.mp3'],
-              volume: 0.7
-            });
-            winSound.play();
+            const winSound = new SpeechSynthesisUtterance('Congratulations! You win the game!');
+            winSound.lang = 'en-US';
+            winSound.pitch = 1.2;
+            winSound.rate = 1.0;
+            window.speechSynthesis.speak(winSound);
           }
           
           // 重置翻转卡片
@@ -350,11 +358,11 @@ const MemoryGamePage = () => {
         }, 500);
       } else {
         // 不匹配音效
-        const failSound = new Howl({
-          src: ['/sounds/fail.mp3'],
-          volume: 0.5
-        });
-        failSound.play();
+        const failSound = new SpeechSynthesisUtterance('Try again');
+        failSound.lang = 'en-US';
+        failSound.pitch = 0.7;
+        failSound.rate = 0.8;
+        window.speechSynthesis.speak(failSound);
         
         // 一秒后将两张卡片翻回去
         setTimeout(() => {

@@ -11,6 +11,10 @@ import AnimalsPage from './pages/AnimalsPage';
 import MemoryGamePage from './games/MemoryGamePage';
 import WordMatchGamePage from './games/WordMatchGamePage';
 import ListeningGamePage from './games/ListeningGamePage';
+import GreetingsPage from './pages/GreetingsPage';
+import SongsPage from './pages/SongsPage';
+import FoodPage from './pages/FoodPage';
+import BodyPartsPage from './pages/BodyPartsPage';
 
 const AppContainer = styled.div`
   min-height: 100vh;
@@ -41,6 +45,10 @@ function App() {
             <Route path="/games/memory" element={<MemoryGamePage />} />
             <Route path="/games/word-match" element={<WordMatchGamePage />} />
             <Route path="/games/listening" element={<ListeningGamePage />} />
+            <Route path="/greetings" element={<GreetingsPage />} />
+            <Route path="/songs" element={<SongsPage />} />
+            <Route path="/food" element={<FoodPage />} />
+            <Route path="/body" element={<BodyPartsPage />} />
           </Routes>
         </Content>
         <Footer />

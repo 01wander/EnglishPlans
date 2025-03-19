@@ -73,27 +73,29 @@ const Score = styled.span`
 `;
 
 const GameArea = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
   margin-bottom: 40px;
+  min-height: 400px;
 `;
 
 const WordsContainer = styled.div`
-  flex: 1;
-  min-width: 300px;
-  display: flex;
-  flex-direction: column;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 15px;
+  grid-template-rows: repeat(3, 1fr);
+  height: 400px;
 `;
 
 const ImagesContainer = styled.div`
-  flex: 1;
-  min-width: 300px;
-  display: flex;
-  flex-direction: column;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 15px;
+  grid-template-rows: repeat(3, 1fr);
+  height: 400px;
 `;
 
 const WordItem = styled.div`
@@ -107,6 +109,9 @@ const WordItem = styled.div`
   color: #333;
   cursor: ${props => props.isMatched ? 'default' : 'pointer'};
   transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   
   &:hover {
     transform: ${props => props.isMatched ? 'none' : 'translateY(-5px)'};
@@ -123,7 +128,6 @@ const EmojiItem = styled.div`
   justify-content: center;
   align-items: center;
   cursor: ${props => props.isMatched ? 'default' : 'pointer'};
-  height: 120px;
   transition: all 0.3s;
   font-size: 4rem;
   
@@ -203,21 +207,39 @@ const WordMatchGamePage = () => {
       { id: 2, word: 'Dog', emoji: '🐶' },
       { id: 3, word: 'Elephant', emoji: '🐘' },
       { id: 4, word: 'Lion', emoji: '🦁' },
-      { id: 5, word: 'Monkey', emoji: '🐒' }
+      { id: 5, word: 'Monkey', emoji: '🐒' },
+      { id: 6, word: 'Rabbit', emoji: '🐰' },
+      { id: 7, word: 'Bear', emoji: '🐻' },
+      { id: 8, word: 'Tiger', emoji: '🐯' },
+      { id: 9, word: 'Pig', emoji: '🐷' },
+      { id: 10, word: 'Mouse', emoji: '🐭' },
+      { id: 11, word: 'Penguin', emoji: '🐧' },
+      { id: 12, word: 'Bird', emoji: '🐦' }
     ],
     fruits: [
       { id: 1, word: 'Apple', emoji: '🍎' },
       { id: 2, word: 'Banana', emoji: '🍌' },
       { id: 3, word: 'Orange', emoji: '🍊' },
       { id: 4, word: 'Strawberry', emoji: '🍓' },
-      { id: 5, word: 'Watermelon', emoji: '🍉' }
+      { id: 5, word: 'Watermelon', emoji: '🍉' },
+      { id: 6, word: 'Grapes', emoji: '🍇' },
+      { id: 7, word: 'Peach', emoji: '🍑' },
+      { id: 8, word: 'Pear', emoji: '🍐' },
+      { id: 9, word: 'Pineapple', emoji: '🍍' },
+      { id: 10, word: 'Cherry', emoji: '🍒' },
+      { id: 11, word: 'Mango', emoji: '🥭' },
+      { id: 12, word: 'Lemon', emoji: '🍋' }
     ],
     colors: [
       { id: 1, word: 'Red', emoji: '🔴' },
       { id: 2, word: 'Blue', emoji: '🔵' },
       { id: 3, word: 'Green', emoji: '🟢' },
       { id: 4, word: 'Yellow', emoji: '🟡' },
-      { id: 5, word: 'Purple', emoji: '🟣' }
+      { id: 5, word: 'Purple', emoji: '🟣' },
+      { id: 6, word: 'Orange', emoji: '🟠' },
+      { id: 7, word: 'Black', emoji: '⚫' },
+      { id: 8, word: 'White', emoji: '⚪' },
+      { id: 9, word: 'Brown', emoji: '🟤' }
     ]
   };
   
@@ -227,8 +249,31 @@ const WordMatchGamePage = () => {
   }, [category]);
   
   const startNewGame = () => {
-    const newItems = [...gameItems[category]];
-    setItems(newItems);
+    // 从类别中随机选择6个项目
+    const allItems = [...gameItems[category]];
+    const newItems = [];
+    const itemCount = 6;
+    
+    // 随机选择项目
+    while (newItems.length < itemCount) {
+      const randomIndex = Math.floor(Math.random() * allItems.length);
+      const item = allItems.splice(randomIndex, 1)[0];
+      newItems.push(item);
+      if (allItems.length === 0) {
+        allItems.push(...gameItems[category]);
+      }
+    }
+    
+    // 为图片创建一个随机顺序的数组
+    const shuffledItems = [...newItems].sort(() => Math.random() - 0.5);
+    
+    // 将单词和图片的顺序分别存储
+    const finalItems = newItems.map((item, index) => ({
+      ...item,
+      imagePosition: shuffledItems.findIndex(i => i.id === item.id)
+    }));
+    
+    setItems(finalItems);
     setSelectedWord(null);
     setSelectedImage(null);
     setMatchedPairs([]);
@@ -284,7 +329,11 @@ const WordMatchGamePage = () => {
     }
     
     // 播放单词发音
-    playWordSound(item.word);
+    const utterance = new SpeechSynthesisUtterance(item.word);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.8;
+    utterance.pitch = 1.0;
+    window.speechSynthesis.speak(utterance);
     
     // 选中单词
     setSelectedWord(item);
@@ -301,6 +350,13 @@ const WordMatchGamePage = () => {
     if (matchedPairs.includes(item.id)) {
       return;
     }
+    
+    // 播放单词发音
+    const utterance = new SpeechSynthesisUtterance(item.word);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.8;
+    utterance.pitch = 1.0;
+    window.speechSynthesis.speak(utterance);
     
     // 选中图片
     setSelectedImage(item);
@@ -398,8 +454,8 @@ const WordMatchGamePage = () => {
         </WordsContainer>
         
         <ImagesContainer>
-          {items
-            .sort(() => Math.random() - 0.5) // 打乱图片顺序
+          {[...items]
+            .sort((a, b) => a.imagePosition - b.imagePosition)
             .map(item => (
               <EmojiItem 
                 key={`image-${item.id}`}

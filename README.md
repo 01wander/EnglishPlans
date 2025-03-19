@@ -66,11 +66,10 @@ src/
 - 首页 (HomePage)
 - 字母学习页 (AlphabetPage)
 - 记忆配对游戏 (MemoryGamePage)
-
-## 待开发页面
-
 - 数字学习页 (NumbersPage)
 - 颜色学习页 (ColorsPage)
 - 动物学习页 (AnimalsPage)
 - 单词匹配游戏 (WordMatchGamePage)
 - 听力游戏 (ListeningGamePage) 
+## 待开发页面
+

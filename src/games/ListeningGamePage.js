@@ -120,6 +120,12 @@ const EmojiDisplay = styled.div`
   margin-bottom: 10px;
 `;
 
+const WordDisplay = styled.div`
+  font-size: 1.2rem;
+  color: #666;
+  font-weight: bold;
+`;
+
 const CorrectOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -232,7 +238,14 @@ const ListeningGamePage = () => {
       { id: 5, name: 'Monkey', emoji: '🐒' },
       { id: 6, name: 'Bird', emoji: '🐦' },
       { id: 7, name: 'Fish', emoji: '🐠' },
-      { id: 8, name: 'Rabbit', emoji: '🐰' }
+      { id: 8, name: 'Rabbit', emoji: '🐰' },
+      { id: 9, name: 'Bear', emoji: '🐻' },
+      { id: 10, name: 'Tiger', emoji: '🐯' },
+      { id: 11, name: 'Pig', emoji: '🐷' },
+      { id: 12, name: 'Mouse', emoji: '🐭' },
+      { id: 13, name: 'Penguin', emoji: '🐧' },
+      { id: 14, name: 'Giraffe', emoji: '🦒' },
+      { id: 15, name: 'Snake', emoji: '🐍' }
     ],
     fruits: [
       { id: 1, name: 'Apple', emoji: '🍎' },
@@ -242,7 +255,14 @@ const ListeningGamePage = () => {
       { id: 5, name: 'Watermelon', emoji: '🍉' },
       { id: 6, name: 'Grapes', emoji: '🍇' },
       { id: 7, name: 'Pineapple', emoji: '🍍' },
-      { id: 8, name: 'Peach', emoji: '🍑' }
+      { id: 8, name: 'Peach', emoji: '🍑' },
+      { id: 9, name: 'Pear', emoji: '🍐' },
+      { id: 10, name: 'Cherry', emoji: '🍒' },
+      { id: 11, name: 'Mango', emoji: '🥭' },
+      { id: 12, name: 'Lemon', emoji: '🍋' },
+      { id: 13, name: 'Coconut', emoji: '🥥' },
+      { id: 14, name: 'Kiwi', emoji: '🥝' },
+      { id: 15, name: 'Melon', emoji: '🍈' }
     ],
     colors: [
       { id: 1, name: 'Red', emoji: '🔴' },
@@ -252,7 +272,10 @@ const ListeningGamePage = () => {
       { id: 5, name: 'Purple', emoji: '🟣' },
       { id: 6, name: 'Orange', emoji: '🟠' },
       { id: 7, name: 'Black', emoji: '⚫' },
-      { id: 8, name: 'White', emoji: '⚪' }
+      { id: 8, name: 'White', emoji: '⚪' },
+      { id: 9, name: 'Brown', emoji: '🟤' },
+      { id: 10, name: 'Pink', emoji: '🎀' },
+      { id: 11, name: 'Gray', emoji: '⚪' }
     ]
   };
   
@@ -273,8 +296,21 @@ const ListeningGamePage = () => {
   
   // 获取随机项目
   const getRandomItems = (items, count) => {
-    const shuffled = [...items].sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, count);
+    // 复制原数组
+    const available = [...items];
+    const result = [];
+    
+    // 确保不会选择超过可用项目数量
+    const itemCount = Math.min(count, available.length);
+    
+    // 随机选择不重复的项目
+    for (let i = 0; i < itemCount; i++) {
+      const randomIndex = Math.floor(Math.random() * available.length);
+      // 从可用项目中移除并添加到结果中
+      result.push(available.splice(randomIndex, 1)[0]);
+    }
+    
+    return result;
   };
   
   // 开始新的回合
@@ -284,11 +320,11 @@ const ListeningGamePage = () => {
       setGameComplete(true);
       setShowConfetti(true);
       // 胜利音效
-      const winSound = new Howl({
-        src: ['/sounds/win.mp3'],
-        volume: 0.7
-      });
-      winSound.play();
+      const winSound = new SpeechSynthesisUtterance('Congratulations! You win!');
+      winSound.lang = 'en-US';
+      winSound.pitch = 1.2;
+      winSound.rate = 1.0;
+      window.speechSynthesis.speak(winSound);
       return;
     }
     
@@ -307,18 +343,18 @@ const ListeningGamePage = () => {
       setCurrentItem(selectedItem);
       
       // 播放单词发音
-      const sound = new Howl({
-        src: [`/sounds/words/${selectedItem.name.toLowerCase()}.mp3`],
-        volume: 1.0
-      });
-      sound.play();
+      const utterance = new SpeechSynthesisUtterance(selectedItem.name);
+      utterance.lang = 'en-US';
+      utterance.rate = 0.8;
+      utterance.pitch = 1.0;
+      window.speechSynthesis.speak(utterance);
     } else {
       // 重新播放当前单词
-      const sound = new Howl({
-        src: [`/sounds/words/${currentItem.name.toLowerCase()}.mp3`],
-        volume: 1.0
-      });
-      sound.play();
+      const utterance = new SpeechSynthesisUtterance(currentItem.name);
+      utterance.lang = 'en-US';
+      utterance.rate = 0.8;
+      utterance.pitch = 1.0;
+      window.speechSynthesis.speak(utterance);
     }
   };
   
@@ -326,13 +362,20 @@ const ListeningGamePage = () => {
   const handleItemClick = (item) => {
     if (!currentItem) return;
     
+    // 播放点击的单词发音
+    const clickSound = new SpeechSynthesisUtterance(item.name);
+    clickSound.lang = 'en-US';
+    clickSound.rate = 0.8;
+    clickSound.pitch = 1.0;
+    window.speechSynthesis.speak(clickSound);
+    
     if (item.id === currentItem.id) {
       // 答对了
-      const correctSound = new Howl({
-        src: ['/sounds/correct.mp3'],
-        volume: 0.7
-      });
-      correctSound.play();
+      const correctSound = new SpeechSynthesisUtterance('correct');
+      correctSound.lang = 'en-US';
+      correctSound.pitch = 1.5;
+      correctSound.rate = 1.0;
+      window.speechSynthesis.speak(correctSound);
       
       setShowCorrect(true);
       setTimeout(() => {
@@ -347,11 +390,11 @@ const ListeningGamePage = () => {
       }, 1500);
     } else {
       // 答错了
-      const incorrectSound = new Howl({
-        src: ['/sounds/incorrect.mp3'],
-        volume: 0.7
-      });
-      incorrectSound.play();
+      const incorrectSound = new SpeechSynthesisUtterance('try again');
+      incorrectSound.lang = 'en-US';
+      incorrectSound.pitch = 0.7;
+      incorrectSound.rate = 0.8;
+      window.speechSynthesis.speak(incorrectSound);
       
       setShowIncorrect(true);
       setTimeout(() => {
@@ -407,6 +450,7 @@ const ListeningGamePage = () => {
             onClick={() => handleItemClick(item)}
           >
             <EmojiDisplay>{item.emoji}</EmojiDisplay>
+            <WordDisplay>{item.name}</WordDisplay>
           </EmojiCard>
         ))}
       </EmojiGrid>
