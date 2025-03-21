@@ -144,7 +144,7 @@ const LoginModal = ({ onClose, onLogin }) => {
           setError('两次输入的密码不一致');
           return;
         }
-        response = await register(formData.username, formData.password);
+        response = await register(formData.username, formData.password, formData.confirmPassword);
       } else {
         response = await login(formData.username, formData.password);
       }

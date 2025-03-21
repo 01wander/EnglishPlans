@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.views.decorators.csrf import csrf_exempt
-from .models import UserProfile, AudioSettings, LearningContent, Progress
+from .models import UserProfile, AudioSettings, LearningContent, Progress, Favorite, LearningHistory
 from .serializers import UserSerializer, UserProfileSerializer, AudioSettingsSerializer, LearningContentSerializer, ProgressSerializer
 from django.middleware.csrf import get_token
 
@@ -69,7 +69,6 @@ def register(request):
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
-@csrf_exempt
 def login_view(request):
     """用户登录"""
     try:
@@ -91,8 +90,12 @@ def login_view(request):
         # 确保音频设置存在
         audio_settings, created = AudioSettings.objects.get_or_create(user=user)
         
+        # 生成会话 token
+        token = get_token(request)
+        
         return Response({
             'message': '登录成功',
+            'token': token,
             'user': {
                 'username': user.username,
                 'profile': UserProfileSerializer(profile).data,
@@ -161,3 +164,63 @@ def user_progress(request):
 def get_csrf_token(request):
     """获取 CSRF token"""
     return Response({'csrfToken': get_token(request)})
+
+@api_view(['POST', 'DELETE'])
+@permission_classes([IsAuthenticated])
+def manage_favorite(request, category, item_id):
+    """管理收藏内容"""
+    try:
+        content = LearningContent.objects.get(category=category, id=item_id)
+        
+        if request.method == 'POST':
+            # 添加收藏
+            favorite, created = Favorite.objects.get_or_create(
+                user=request.user,
+                content=content
+            )
+            return Response({'message': '添加收藏成功'}, status=status.HTTP_201_CREATED)
+            
+        elif request.method == 'DELETE':
+            # 取消收藏
+            Favorite.objects.filter(user=request.user, content=content).delete()
+            return Response({'message': '取消收藏成功'}, status=status.HTTP_200_OK)
+            
+    except LearningContent.DoesNotExist:
+        return Response({'error': '内容不存在'}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def update_progress(request, category, item_id):
+    """更新学习进度"""
+    try:
+        content = LearningContent.objects.get(category=category, id=item_id)
+        status_value = request.data.get('status', 'started')
+        
+        progress, created = Progress.objects.get_or_create(
+            user=request.user,
+            content=content,
+            defaults={'status': status_value}
+        )
+        
+        if not created:
+            progress.status = status_value
+            progress.save()
+        
+        # 记录学习历史
+        LearningHistory.objects.create(
+            user=request.user,
+            content=content,
+            action=f'marked_as_{status_value}'
+        )
+        
+        return Response({
+            'message': '更新进度成功',
+            'status': status_value
+        }, status=status.HTTP_200_OK)
+        
+    except LearningContent.DoesNotExist:
+        return Response({'error': '内容不存在'}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

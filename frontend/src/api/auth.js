@@ -62,7 +62,6 @@ export const register = async (username, password, password2) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRFToken': document.cookie.split('csrftoken=')[1]?.split(';')[0] || '',
             },
             body: JSON.stringify({ username, password, password2 }),
             credentials: 'include',

@@ -131,17 +131,41 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_ALL_ORIGINS = True  # 开发环境下允许所有源
 CORS_ALLOW_CREDENTIALS = True
 
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
 # CSRF settings
-CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False  # 开发环境设置为 False
 CSRF_COOKIE_HTTPONLY = False
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
+    "http://127.0.0.1:3000",
 ]
 CSRF_USE_SESSIONS = False
 CSRF_COOKIE_SAMESITE = None  # 开发环境下禁用 SameSite
+CSRF_COOKIE_NAME = 'csrftoken'
+CSRF_HEADER_NAME = 'HTTP_X_CSRFTOKEN'
 
 # Session settings
-SESSION_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False  # 开发环境设置为 False
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SAMESITE = None  # 开发环境下禁用 SameSite
 
@@ -149,6 +173,7 @@ SESSION_COOKIE_SAMESITE = None  # 开发环境下禁用 SameSite
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',

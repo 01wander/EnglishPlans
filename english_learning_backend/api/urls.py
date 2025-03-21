@@ -10,4 +10,6 @@ urlpatterns = [
     path('user/info/', views.get_user_info, name='user-info'),
     path('content/', views.learning_content, name='learning-content'),
     path('progress/', views.user_progress, name='user-progress'),
+    path('favorites/<str:category>/<str:item_id>', views.manage_favorite, name='manage_favorite'),
+    path('progress/<str:category>/<str:item_id>', views.update_progress, name='update_progress'),
 ] 

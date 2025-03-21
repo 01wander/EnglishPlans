@@ -55,6 +55,7 @@ export const UserProvider = ({ children }) => {
       localStorage.setItem('user', JSON.stringify(user));
     } else {
       localStorage.removeItem('user');
+      localStorage.removeItem('token');
       // 当用户登出时，清除其他相关数据
       localStorage.removeItem('audioSettings');
       localStorage.removeItem('favorites');
@@ -90,6 +91,10 @@ export const UserProvider = ({ children }) => {
   // 登录
   const login = async (userData) => {
     try {
+      if (userData.token) {
+        localStorage.setItem('token', userData.token);
+      }
+      
       setUser(userData);
       
       // 如果有音频设置，更新它
@@ -121,6 +126,7 @@ export const UserProvider = ({ children }) => {
 
   // 登出
   const logout = () => {
+    localStorage.removeItem('token');
     setUser(null);
     // 重置所有状态到默认值
     setAudioSettings({

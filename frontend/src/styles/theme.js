@@ -1,8 +1,14 @@
 export const theme = {
   colors: {
-    primary: '#3498db',
-    primaryDark: '#2980b9',
-    secondary: '#e74c3c',
+    primary: '#1890ff',
+    secondary: '#722ed1',
+    success: '#52c41a',
+    warning: '#faad14',
+    error: '#f5222d',
+    text: '#333333',
+    textSecondary: '#666666',
+    background: '#ffffff',
+    border: '#d9d9d9',
     text: {
       primary: '#2c3e50',
       secondary: '#7f8c8d',
@@ -50,32 +56,34 @@ export const theme = {
   },
   
   spacing: {
-    xs: '5px',
+    xs: '4px',
     sm: '8px',
-    md: '10px',
-    lg: '15px',
-    xl: '20px',
+    md: '16px',
+    lg: '24px',
+    xl: '32px',
     xxl: '30px'
   },
   
   borderRadius: {
-    sm: '8px',
-    md: '10px',
-    lg: '15px',
+    sm: '4px',
+    md: '8px',
+    lg: '16px',
     xl: '20px',
     pill: '20px'
   },
   
   shadows: {
-    sm: '0 2px 8px rgba(0, 0, 0, 0.1)',
-    md: '0 4px 15px rgba(0, 0, 0, 0.1)',
-    lg: '0 8px 25px rgba(0, 0, 0, 0.15)'
+    sm: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    md: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    lg: '0 8px 16px rgba(0, 0, 0, 0.1)',
   },
   
   breakpoints: {
-    mobile: '650px',
-    tablet: '1024px',
-    desktop: '1200px'
+    xs: '320px',
+    sm: '576px',
+    md: '768px',
+    lg: '992px',
+    xl: '1200px',
   },
   
   transitions: {
