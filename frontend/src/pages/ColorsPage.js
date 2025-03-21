@@ -1,127 +1,18 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-
-const Container = styled.div`
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 20px;
-  padding: 30px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-`;
-
-const PageTitle = styled.h1`
-  font-size: 2.5rem;
-  color: #ff6347;
-  text-align: center;
-  margin-bottom: 30px;
-`;
-
-const Description = styled.p`
-  font-size: 1.2rem;
-  color: #666;
-  text-align: center;
-  margin-bottom: 40px;
-`;
-
-const ColorsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 25px;
-  margin-bottom: 40px;
-`;
-
-const ColorCard = styled.div`
-  border-radius: 15px;
-  min-height: 300px;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: all 0.3s;
-  background-color: white;
-  
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  }
-`;
-
-const ColorDisplay = styled.div`
-  height: 150px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: ${props => props.color};
-  font-size: 5rem;
-`;
-
-const ColorInfo = styled.div`
-  padding: 20px;
-  flex: 1;
-  background-color: white;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`;
-
-const ColorName = styled.div`
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 5px;
-`;
-
-const TranslationButton = styled.button`
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 6px 12px;
-  color: #666;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s;
-  margin: 0 auto;
-  width: fit-content;
-
-  &:hover {
-    background-color: #f0f0f0;
-    border-color: #ccc;
-  }
-`;
-
-const Translation = styled.div`
-  font-size: 1.2rem;
-  color: #666;
-  height: ${props => props.show ? 'auto' : '0'};
-  opacity: ${props => props.show ? 1 : 0};
-  transition: all 0.3s;
-  margin: 5px 0;
-`;
-
-const ExampleSentence = styled.div`
-  font-size: 1.1rem;
-  color: #888;
-  font-style: italic;
-  cursor: pointer;
-  padding: 12px 15px;
-  border-radius: 10px;
-  line-height: 1.4;
-  
-  &:hover {
-    background-color: #fff3f0;
-  }
-`;
-
-const ExampleTranslation = styled.div`
-  font-size: 1rem;
-  color: #666;
-  font-style: italic;
-  height: ${props => props.show ? 'auto' : '0'};
-  opacity: ${props => props.show ? 1 : 0};
-  transition: all 0.3s;
-  padding: 0 5px;
-`;
+import {
+  Container,
+  PageTitle,
+  Description,
+  ColorsGrid,
+  ColorCard,
+  ColorDisplay,
+  ColorInfo,
+  ColorName,
+  TranslationButton,
+  Translation,
+  ExampleSentence,
+  ExampleTranslation
+} from '../styles/ColorsStyles';
 
 const ColorsPage = () => {
   const [showTranslations, setShowTranslations] = useState({});

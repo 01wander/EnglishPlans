@@ -133,9 +133,9 @@ const HomePage = () => {
           }}>🎨</CardIcon>
           <CardTitle>颜色</CardTitle>
           <CardDescription>
-            学习各种颜色的英文表达
+            学习基本颜色的英语表达
             <br />
-            Learn English expressions for colors
+            Learn English expressions for basic colors
           </CardDescription>
         </Card>
 
@@ -190,8 +190,8 @@ const HomePage = () => {
             Learn English expressions for common foods and drinks
           </CardDescription>
         </Card>
-        
-        <Card to="/body">
+
+        <Card to="/body-parts">
           <CardIcon onClick={(e) => {
             e.preventDefault();
             playSound('Body parts');

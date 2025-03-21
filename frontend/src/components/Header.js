@@ -160,7 +160,7 @@ const Header = () => {
               </MenuLink>
             </MenuItem>
             <MenuItem>
-              <MenuLink to="/body" className={isActive('/body')}>
+              <MenuLink to="/body-parts" className={isActive('/body-parts')}>
                 身体部位
               </MenuLink>
             </MenuItem>

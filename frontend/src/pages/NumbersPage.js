@@ -1,116 +1,18 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-
-const Container = styled.div`
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 20px;
-  padding: 30px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-`;
-
-const PageTitle = styled.h1`
-  font-size: 2.5rem;
-  color: #ff6347;
-  text-align: center;
-  margin-bottom: 30px;
-`;
-
-const Description = styled.p`
-  font-size: 1.2rem;
-  color: #666;
-  text-align: center;
-  margin-bottom: 40px;
-`;
-
-const NumbersGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 25px;
-  margin-bottom: 40px;
-`;
-
-const NumberCard = styled.div`
-  background-color: white;
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s;
-  
-  &:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    background-color: #fffacd;
-  }
-`;
-
-const NumberEmoji = styled.div`
-  font-size: 3rem;
-  margin-bottom: 10px;
-`;
-
-const NumberValue = styled.div`
-  font-size: 2.2rem;
-  font-weight: bold;
-  color: #ff6347;
-  margin-bottom: 10px;
-`;
-
-const NumberWord = styled.div`
-  font-size: 1.5rem;
-  color: #666;
-  margin-bottom: 10px;
-`;
-
-const TranslationButton = styled.button`
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 4px 8px;
-  color: #666;
-  font-size: 0.9rem;
-  cursor: pointer;
-  margin-bottom: 8px;
-  transition: all 0.3s;
-
-  &:hover {
-    background-color: #f0f0f0;
-    border-color: #ccc;
-  }
-`;
-
-const Translation = styled.div`
-  font-size: 1rem;
-  color: #666;
-  margin-bottom: 8px;
-  height: ${props => props.show ? 'auto' : '0'};
-  opacity: ${props => props.show ? 1 : 0};
-  transition: all 0.3s;
-`;
-
-const ExampleSentence = styled.div`
-  font-size: 1.1rem;
-  color: #888;
-  font-style: italic;
-  cursor: pointer;
-  padding: 12px 15px;
-  border-radius: 10px;
-  line-height: 1.4;
-  
-  &:hover {
-    background-color: #fff3f0;
-  }
-`;
-
-const ExampleTranslation = styled.div`
-  font-size: 0.9rem;
-  color: #666;
-  font-style: italic;
-  height: ${props => props.show ? 'auto' : '0'};
-  opacity: ${props => props.show ? 1 : 0};
-  transition: all 0.3s;
-`;
+import {
+  Container,
+  PageTitle,
+  Description,
+  NumbersGrid,
+  NumberCard,
+  NumberEmoji,
+  NumberValue,
+  NumberWord,
+  TranslationButton,
+  Translation,
+  ExampleSentence,
+  ExampleTranslation
+} from '../styles/NumbersStyles';
 
 const NumbersPage = () => {
   const [showTranslations, setShowTranslations] = useState({});
