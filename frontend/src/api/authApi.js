@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8000/api';
+// 根据环境设置 API 基础 URL
+const API_BASE_URL = process.env.NODE_ENV === 'production' 
+  ? '/api'  // 生产环境使用相对路径
+  : 'http://localhost:8000/api';  // 开发环境使用完整 URL
 
 // 获取 CSRF Token 的函数
 const getCSRFToken = () => {
